@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Tone from 'tone'
+import Grid from './components/Grid.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -26,20 +27,10 @@ class App extends Component {
     this.setState({oscillatorOn: true});
   }
 
-  _generateGrid = () => {
-    return (
-      <div className="flex-container" onClick={this._handleClick}>
-        <div className="flex-item">1</div>
-        <div className="flex-item">2</div>
-        <div className="flex-item">3</div>
-      </div>
-    )
-  }
-
   render() {
     return (
       <div className="App">
-        {this._generateGrid}
+        <Grid />
       </div>
     );
   }
