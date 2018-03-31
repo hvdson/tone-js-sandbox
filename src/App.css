@@ -1,4 +1,5 @@
 .App {
+  flex: 1;
   text-align: center;
 }
 
@@ -19,7 +20,11 @@
 }
 
 .App-intro {
+  flex: 1;
+  height: 250px;
+  margin: 2rem;
   font-size: large;
+  background-color: rgb(138, 151, 192);
 }
 
 @keyframes App-logo-spin {
