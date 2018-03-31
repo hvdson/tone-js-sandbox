@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Tone from 'tone'
 
@@ -27,11 +26,20 @@ class App extends Component {
     this.setState({oscillatorOn: true});
   }
 
+  _generateGrid = () => {
+    return (
+      <div className="flex-container" onClick={this._handleClick}>
+        <div className="flex-item">1</div>
+        <div className="flex-item">2</div>
+        <div className="flex-item">3</div>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div className="App">
-        <p className="App-intro" onClick={this._handleClick}>
-        </p>
+        {this._generateGrid}
       </div>
     );
   }
