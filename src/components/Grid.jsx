@@ -4,70 +4,58 @@ import Tone from 'tone'
 export default class Grid extends Component {
   constructor(props) {
     super(props);
+    this.omniOsc = new Tone.OmniOscillator("C#4", "pwm").toMaster();
     this.state = {
-      result: null
+      oscillatorOn: false,
+      transportGrid: {
+        kick: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        snare : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        hat : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        tom : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      }
+    };
+  }
+  
+  _handleClick = () => {
+    if (this.state.oscillatorOn) {
+      this.omniOsc.stop();
+      this.setState({ oscillatorOn: false });
+    } else {
+      this._newSynth();
     }
   }
 
-  // render() {
-  //   return (
-  //     <div>
-  //       <div className="flex-container" onClick={this._handleClick}>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //       </div>
+  _newSynth = () => {
+    //create a synth and connect it to the master output (your speakers)
+    this.omniOsc.start();
+    this.setState({ oscillatorOn: true });
+  }
 
-  //       <div className="flex-container" onClick={this._handleClick}>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //         <div className="flex-item"></div>
-  //       </div>
-  //     </div>
-  //   )
-  // }
-
-  render() {
+  _renderFlexItem = (instr) => {
     return (
-      <div>
-        {Array.apply(null, Array(4)).map((i) =>
-          <div className="flex-container" onClick={this._handleClick}>
-            {Array.apply(null, Array(16)).map((i)=>
-              <div className="flex-item"></div>
-            )}
+      <div className="flex-container">
+        {Array.apply(null, this.state.transportGrid.kick).map((i) =>
+          <div className="flex-item" onClick={this._handleClick}>
           </div>
         )}
       </div>
     )
   }
-}
 
-const _renderFlexItem = () => {
-  return (<div className="flex-item"></div>)
+  render() {
+    return (
+      <div className="container">
+        <div id="transport-grid">
+          {this._renderFlexItem('KICK')}
+          {this._renderFlexItem('SNARE')}
+          {this._renderFlexItem('HAT')}
+          {this._renderFlexItem('TOM')}
+        </div>
+        <div className="instrument-labels">
+          <span>DANK</span>
+        </div>
+          
+      </div>
+    )
+  }
 }

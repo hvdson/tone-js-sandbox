@@ -3,6 +3,11 @@
   text-align: center;
 }
 
+.container {
+  flex-direction: row;
+  -webkit-flex-flow: row;
+}
+
 .flex-container {
   padding: 0;
   margin: 0;
@@ -32,4 +37,8 @@
   content: '';
   float: left;
   padding-top: 100%;
+}
+
+.instrument-name {
+  margin-top: 20px;
 }
