@@ -9,13 +9,65 @@ export default class Grid extends Component {
     }
   }
 
+  // render() {
+  //   return (
+  //     <div>
+  //       <div className="flex-container" onClick={this._handleClick}>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //       </div>
+
+  //       <div className="flex-container" onClick={this._handleClick}>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //         <div className="flex-item"></div>
+  //       </div>
+  //     </div>
+  //   )
+  // }
+
   render() {
     return (
-      <div className="flex-container" onClick={this._handleClick}>
-        <div className="flex-item">1</div>
-        <div className="flex-item">2</div>
-        <div className="flex-item">3</div>
+      <div>
+        {Array.apply(null, Array(4)).map((i) =>
+          <div className="flex-container" onClick={this._handleClick}>
+            {Array.apply(null, Array(16)).map((i)=>
+              <div className="flex-item"></div>
+            )}
+          </div>
+        )}
       </div>
     )
   }
+}
+
+const _renderFlexItem = () => {
+  return (<div className="flex-item"></div>)
 }
