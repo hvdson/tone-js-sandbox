@@ -45,16 +45,16 @@ export default class Grid extends Component {
   render() {
     return (
       <div className="container">
-        <div id="transport-grid">
+        <div id="transport-grid" className="transport">
           {this._renderFlexItem('KICK')}
           {this._renderFlexItem('SNARE')}
           {this._renderFlexItem('HAT')}
           {this._renderFlexItem('TOM')}
         </div>
-        <div className="instrument-labels">
-          <span>DANK</span>
-        </div>
-          
+        <footer className="track-controls">
+          <i className="fas fa-stop stop-button"></i>
+          <i className="fas fa-play play-button"></i>
+        </footer>
       </div>
     )
   }
