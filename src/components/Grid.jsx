@@ -16,7 +16,9 @@ export default class Grid extends Component {
     };
   }
   
-  _handleClick = () => {
+  _handleClick = (e) => {
+    e.preventDefault();
+    console.log(e.target.id);
     if (this.state.oscillatorOn) {
       this.omniOsc.stop();
       this.setState({ oscillatorOn: false });
@@ -34,8 +36,8 @@ export default class Grid extends Component {
   _renderFlexItem = (instr) => {
     return (
       <div className="flex-container">
-        {Array.apply(null, this.state.transportGrid.kick).map((i) =>
-          <div className="flex-item" onClick={this._handleClick}>
+        {Array.apply(null, this.state.transportGrid.kick).map((i, idx) =>
+          <div id={`${instr}-${idx}`}className="flex-item" onClick={this._handleClick}>
           </div>
         )}
       </div>
@@ -46,10 +48,10 @@ export default class Grid extends Component {
     return (
       <div className="container">
         <div id="transport-grid" className="transport">
-          {this._renderFlexItem('KICK')}
-          {this._renderFlexItem('SNARE')}
-          {this._renderFlexItem('HAT')}
-          {this._renderFlexItem('TOM')}
+          {this._renderFlexItem('kick')}
+          {this._renderFlexItem('snare')}
+          {this._renderFlexItem('hat')}
+          {this._renderFlexItem('tom')}
         </div>
         <footer className="track-controls">
           <i className="fas fa-stop stop-button"></i>
