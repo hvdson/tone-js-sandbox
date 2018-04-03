@@ -39,8 +39,12 @@
   height: auto;
 }
 
+.flex-item:hover {
+  background: rgb(250, 167, 167);
+}
+
 .grid-on {
-  background-color: red;
+  background-color: rgb(240, 53, 53);
 }
 
 .flex-item:before {
@@ -62,11 +66,19 @@
 .play-button {
   flex: 1;
   margin: 0.5rem;
+  background-color: rgb(207, 207, 207);  
+}
+
+.play-button:hover {
   background-color: rgb(112, 224, 112);
 }
 
 .stop-button {
   flex: 1;
   margin: 0.5rem;
+  background-color: rgb(207, 207, 207);
+}
+
+.stop-button:hover {
   background-color: rgb(235, 86, 86);
 }

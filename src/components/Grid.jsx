@@ -6,12 +6,16 @@ import Stop from '../assets/stop.svg'
 const ON = 1;
 const OFF = 0;
 
+// TODO: Add transport method from tone.js to read transportGrid State
+// TODO: Have transparent overlay to indicate what beat is being played
+
 export default class Grid extends Component {
   constructor(props) {
     super(props);
     this.omniOsc = new Tone.OmniOscillator("C#4", "pwm").toMaster();
     this.state = {
       oscillatorOn: false,
+      playing: false,
       transportGrid: {
         kick: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         snare : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -20,8 +24,6 @@ export default class Grid extends Component {
       }
     };
   }
-
-
   
   _handleClick = (e) => {
     e.preventDefault();
@@ -48,6 +50,19 @@ export default class Grid extends Component {
     }
   }
 
+  _handleStopPlay = (e) => {
+    e.preventDefault();
+    console.log(e.target.id);
+  }
+
+  _renderStopPlay = (id, className, src) => {
+    return (
+      <div id={id} className={className}>
+        <img src={src} width="20" alt="play" />
+      </div>
+    )
+  }
+
   _newSynth = () => {
     //create a synth and connect it to the master output (your speakers)
     this.omniOsc.start();
@@ -64,31 +79,23 @@ export default class Grid extends Component {
     )
   }
 
-//   if(this.state.transportGrid[instr][idx] === 1) {
-//   return <div id={`${instr}-${idx}`} className="flex-item grid-on" onClick={this._handleClick.bind(this)}></div>
-// } else {
-//   return <GridItem instr={instr} idx={idx} toggle={this.state.transportGrid[instr][idx]} _handleClick={this._handleClick.bind(this)} />
-// }
-
+  // this can be dried up by calling a seperate component for each semantic tag
   render() {
     return (
       <div className="container">
+
         <div id="transport-grid" className="transport">
           {this._renderFlexItem('kick')}
           {this._renderFlexItem('snare')}
           {this._renderFlexItem('hat')}
           {this._renderFlexItem('tom')}
         </div>
+
         <footer className="track-controls">
-          <div className="stop-button">
-            {/* <i className="fas fa-stop "></i> */}
-            <img className="stop-button" src={Stop} width="20" alt="stop"/>
-          </div>
-         
-          <div className="play-button">
-            <img className="play-button" src={Play} width="20" alt="play" />
-          </div>
+          {this._renderStopPlay('stop', 'stop-button', Stop)}
+          {this._renderStopPlay('play', 'play-button', Play)}
         </footer>
+
       </div>
     )
   }
