@@ -49,7 +49,7 @@ export default class Grid extends Component {
           if (this.state.transportGrid[instr][idx] === 1) {
             return <div id={`${instr}-${idx}`} className="flex-item grid-on" onClick={this._handleClick.bind(this)}></div>
           } else {
-            return <div id={`${instr}-${idx}`} className="flex-item" onClick={this._handleClick.bind(this)}></div>
+            return <GridItem instr={instr} idx={idx} _handleClick={this._handleClick.bind(this)}/>
           }
         })}
       </div>
@@ -70,6 +70,18 @@ export default class Grid extends Component {
           <i className="fas fa-play play-button"></i>
         </footer>
       </div>
+    )
+  }
+}
+
+class GridItem extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div id={`${this.props.instr}-${this.props.idx}`} className="flex-item" onClick={this.props._handleClick}></div>
     )
   }
 }
