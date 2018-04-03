@@ -18,13 +18,22 @@ export default class Grid extends Component {
   
   _handleClick = (e) => {
     e.preventDefault();
-    console.log(e.target.id);
-    if (this.state.oscillatorOn) {
-      this.omniOsc.stop();
-      this.setState({ oscillatorOn: false });
-    } else {
-      this._newSynth();
+    console.log(e.target);
+    // if (this.state.oscillatorOn) {
+    //   this.omniOsc.stop();
+    //   this.setState({ oscillatorOn: false });
+    // } else {
+    //   this._newSynth();
+    // }
+    const gridLocation = e.target.id.split('-');
+    const instr = gridLocation[0];
+    const pos = Number(gridLocation[1]);
+
+    if (this.state.transportGrid[instr][pos] === 0) {
+      this.state.transportGrid[instr][pos] = 1;
+      console.log(this.state.transportGrid)
     }
+    console.log(instr, pos);
   }
 
   _newSynth = () => {
@@ -36,10 +45,13 @@ export default class Grid extends Component {
   _renderFlexItem = (instr) => {
     return (
       <div className="flex-container">
-        {Array.apply(null, this.state.transportGrid.kick).map((i, idx) =>
-          <div id={`${instr}-${idx}`}className="flex-item" onClick={this._handleClick}>
-          </div>
-        )}
+        {Array.apply(null, this.state.transportGrid.kick).map((i, idx) => {
+          if (this.state.transportGrid[instr][idx] === 1) {
+            return <div id={`${instr}-${idx}`} className="flex-item grid-on" onClick={this._handleClick.bind(this)}></div>
+          } else {
+            return <div id={`${instr}-${idx}`} className="flex-item" onClick={this._handleClick.bind(this)}></div>
+          }
+        })}
       </div>
     )
   }
