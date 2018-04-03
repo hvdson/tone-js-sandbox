@@ -56,16 +56,17 @@
 .track-controls {
   flex: 1;
   display: flex;
+  justify-content: space-around;
 }
 
 .play-button {
   flex: 1;
+  margin: 1rem;
   background-color: rgb(112, 224, 112);
-  height: 2rem;
 }
 
 .stop-button {
   flex: 1;
+  margin: 1rem;
   background-color: rgb(235, 86, 86);
-  height: 2rem;
 }

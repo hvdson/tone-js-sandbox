@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Tone from 'tone'
+import Play from '../assets/play.svg'
+import Stop from '../assets/stop.svg'
 
 const ON = 1;
 const OFF = 0;
@@ -33,13 +35,12 @@ export default class Grid extends Component {
     const gridLocation = e.target.id.split('-');
     const instr = gridLocation[0];
     const pos = Number(gridLocation[1]);
+    let currGrid = this.state.transportGrid;
 
     if (this.state.transportGrid[instr][pos] === OFF) {
-      let currGrid = this.state.transportGrid;
       currGrid[instr][pos] = 1;
       this.setState({transportGrid: currGrid});
     } else {
-      let currGrid = this.state.transportGrid;
       currGrid[instr][pos] = 0;
       this.setState({ transportGrid: currGrid });
     }
@@ -75,8 +76,14 @@ export default class Grid extends Component {
           {this._renderFlexItem('tom')}
         </div>
         <footer className="track-controls">
-          <i className="fas fa-stop stop-button"></i>
-          <i className="fas fa-play play-button"></i>
+          <div className="stop-button">
+            {/* <i className="fas fa-stop "></i> */}
+            <img className="stop-button" src={Stop} width="20" alt="stop"/>
+          </div>
+         
+          <div className="play-button">
+            <img className="play-button" src={Play} width="20" alt="play" />
+          </div>
         </footer>
       </div>
     )
@@ -84,20 +91,6 @@ export default class Grid extends Component {
 }
 
 class GridItem extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      gridClass: ['flex-item'],
-    }
-  }
-
-  // _toggleOn = () => {
-  //   this.setState({ gridClass: ['flex-item', 'grid-on'] });
-  // }
-
-  // _toggleOff = () => {
-  //   this.setState({ gridClass: ['flex-item'] });
-  // }
 
   _handleToggle = () => {
     if (this.props.toggle === ON) {
