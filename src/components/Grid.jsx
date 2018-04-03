@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Tone from 'tone'
 
 const ON = 1;
+const OFF = 0;
 
 export default class Grid extends Component {
   constructor(props) {
@@ -33,14 +34,15 @@ export default class Grid extends Component {
     const instr = gridLocation[0];
     const pos = Number(gridLocation[1]);
 
-    if (this.state.transportGrid[instr][pos] === 0) {
+    if (this.state.transportGrid[instr][pos] === OFF) {
       let currGrid = this.state.transportGrid;
       currGrid[instr][pos] = 1;
       this.setState({transportGrid: currGrid});
-
-      console.log(this.state.transportGrid)
+    } else {
+      let currGrid = this.state.transportGrid;
+      currGrid[instr][pos] = 0;
+      this.setState({ transportGrid: currGrid });
     }
-    console.log(instr, pos);
   }
 
   _newSynth = () => {
