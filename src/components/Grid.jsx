@@ -55,6 +55,7 @@ export default class Grid extends Component {
     console.log(e.target.id);
   }
 
+  // TODO: keep track of state when mouseclick event is fired (change class -> color of button to persist)
   _renderStopPlay = (id, className, src) => {
     return (
       <div id={id} className={className}>
@@ -79,7 +80,7 @@ export default class Grid extends Component {
     )
   }
 
-  // this can be dried up by calling a seperate component for each semantic tag
+  // TODO: dry up by calling a seperate component for each semantic tag
   render() {
     return (
       <div className="container">
@@ -112,7 +113,7 @@ class GridItem extends Component {
 
   render() {
     return (
-      <div id={`${this.props.instr}-${this.props.idx}`} className={this._handleToggle()} onClick={this.props._handleClick}></div>
+      <div id={`${this.props.instr}-${this.props.idx}`} className={this._handleToggle()} onClick={this.props._handleClick} onMouseEnter={this.props._handleClick} ></div>
     )
   }
 }
