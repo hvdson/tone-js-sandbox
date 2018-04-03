@@ -40,9 +40,11 @@ export default class Grid extends Component {
     if (this.state.transportGrid[instr][pos] === OFF) {
       currGrid[instr][pos] = 1;
       this.setState({transportGrid: currGrid});
+      console.log(this.state);
     } else {
       currGrid[instr][pos] = 0;
       this.setState({ transportGrid: currGrid });
+      console.log(this.state);
     }
   }
 
@@ -56,15 +58,17 @@ export default class Grid extends Component {
     return (
       <div className="flex-container">
         {Array.apply(null, this.state.transportGrid.kick).map((i, idx) => {
-          if (this.state.transportGrid[instr][idx] === 1) {
-            return <div id={`${instr}-${idx}`} className="flex-item grid-on" onClick={this._handleClick.bind(this)}></div>
-          } else {
-            return <GridItem instr={instr} idx={idx} toggle={this.state.transportGrid[instr][idx]} _handleClick={this._handleClick.bind(this)}/>
-          }
+          return <GridItem instr={instr} idx={idx} toggle={this.state.transportGrid[instr][idx]} _handleClick={this._handleClick.bind(this)} />
         })}
       </div>
     )
   }
+
+//   if(this.state.transportGrid[instr][idx] === 1) {
+//   return <div id={`${instr}-${idx}`} className="flex-item grid-on" onClick={this._handleClick.bind(this)}></div>
+// } else {
+//   return <GridItem instr={instr} idx={idx} toggle={this.state.transportGrid[instr][idx]} _handleClick={this._handleClick.bind(this)} />
+// }
 
   render() {
     return (
@@ -91,7 +95,6 @@ export default class Grid extends Component {
 }
 
 class GridItem extends Component {
-
   _handleToggle = () => {
     if (this.props.toggle === ON) {
       return 'flex-item grid-on';

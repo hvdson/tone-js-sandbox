@@ -61,12 +61,12 @@
 
 .play-button {
   flex: 1;
-  margin: 1rem;
+  margin: 0.5rem;
   background-color: rgb(112, 224, 112);
 }
 
 .stop-button {
   flex: 1;
-  margin: 1rem;
+  margin: 0.5rem;
   background-color: rgb(235, 86, 86);
 }
