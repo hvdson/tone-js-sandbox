@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Tone from 'tone'
 
+const ON = 1;
+
 export default class Grid extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +17,8 @@ export default class Grid extends Component {
       }
     };
   }
+
+
   
   _handleClick = (e) => {
     e.preventDefault();
@@ -30,7 +34,10 @@ export default class Grid extends Component {
     const pos = Number(gridLocation[1]);
 
     if (this.state.transportGrid[instr][pos] === 0) {
-      this.state.transportGrid[instr][pos] = 1;
+      let currGrid = this.state.transportGrid;
+      currGrid[instr][pos] = 1;
+      this.setState({transportGrid: currGrid});
+
       console.log(this.state.transportGrid)
     }
     console.log(instr, pos);
@@ -49,7 +56,7 @@ export default class Grid extends Component {
           if (this.state.transportGrid[instr][idx] === 1) {
             return <div id={`${instr}-${idx}`} className="flex-item grid-on" onClick={this._handleClick.bind(this)}></div>
           } else {
-            return <GridItem instr={instr} idx={idx} _handleClick={this._handleClick.bind(this)}/>
+            return <GridItem instr={instr} idx={idx} toggle={this.state.transportGrid[instr][idx]} _handleClick={this._handleClick.bind(this)}/>
           }
         })}
       </div>
@@ -77,11 +84,30 @@ export default class Grid extends Component {
 class GridItem extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      gridClass: ['flex-item'],
+    }
+  }
+
+  // _toggleOn = () => {
+  //   this.setState({ gridClass: ['flex-item', 'grid-on'] });
+  // }
+
+  // _toggleOff = () => {
+  //   this.setState({ gridClass: ['flex-item'] });
+  // }
+
+  _handleToggle = () => {
+    if (this.props.toggle === ON) {
+      return 'flex-item grid-on';
+    } else {
+      return 'flex-item';
+    }
   }
 
   render() {
     return (
-      <div id={`${this.props.instr}-${this.props.idx}`} className="flex-item" onClick={this.props._handleClick}></div>
+      <div id={`${this.props.instr}-${this.props.idx}`} className={this._handleToggle()} onClick={this.props._handleClick}></div>
     )
   }
 }
