@@ -40,11 +40,15 @@
 }
 
 .flex-item:hover {
-  background: rgb(250, 167, 167);
+  background-color: rgba(240, 53, 53, 0.493);
 }
 
 .grid-on {
   background-color: rgb(240, 53, 53);
+}
+
+.grid-on:hover {
+  background: rgb(245, 118, 118);
 }
 
 .flex-item:before {
@@ -79,6 +83,6 @@
   background-color: rgb(207, 207, 207);
 }
 
-.stop-button:hover . {
+.stop-button:hover {
   background-color: rgb(235, 86, 86);
 }

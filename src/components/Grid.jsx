@@ -6,6 +6,8 @@ import Stop from '../assets/stop.svg'
 const ON = 1;
 const OFF = 0;
 
+const calculateInterval = (bpm) => ((60000 / bpm) * 4) / 8;
+
 // TODO: Add transport method from tone.js to read transportGrid State
 // TODO: Have transparent overlay to indicate what beat is being played
 
@@ -14,6 +16,7 @@ export default class Grid extends Component {
     super(props);
     this.omniOsc = new Tone.OmniOscillator("C#4", "pwm").toMaster();
     this.state = {
+      bpm: 120,
       oscillatorOn: false,
       playing: false,
       transportGrid: {
@@ -92,11 +95,15 @@ export default class Grid extends Component {
           {this._renderFlexItem('tom')}
         </div>
 
-        <footer className="track-controls">
+        <div className="track-controls">
           {this._renderStopPlay('stop', 'stop-button', Stop)}
           {this._renderStopPlay('play', 'play-button', Play)}
-        </footer>
+        </div>
 
+        <div>
+          <h3>BPM:{this.state.bpm}</h3>
+        </div>
+      
       </div>
     )
   }
@@ -113,7 +120,7 @@ class GridItem extends Component {
 
   render() {
     return (
-      <div id={`${this.props.instr}-${this.props.idx}`} className={this._handleToggle()} onClick={this.props._handleClick} onMouseEnter={this.props._handleClick} ></div>
+      <div id={`${this.props.instr}-${this.props.idx}`} className={this._handleToggle()} onClick={this.props._handleClick} ></div>
     )
   }
 }
