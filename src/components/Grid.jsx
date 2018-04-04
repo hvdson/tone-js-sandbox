@@ -191,6 +191,10 @@ export default class Grid extends Component {
         <div>
           <h3>BPM:{this.state.bpm}</h3>
         </div>
+
+        <div>
+          MAKE DANK BEATS MY GUY
+        </div>
       
       </div>
     )
