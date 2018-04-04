@@ -143,12 +143,14 @@ export default class Grid extends Component {
     //repeated event every 8th note
     Tone.Transport.start().scheduleRepeat( (time) => {
       //do something with the time
+
+      let newGrid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
       let posArr = Tone.Transport.position.split(':'); 
       // converts the transport position to 1d array for indexing
       let currPos = (Number(posArr[0]) * 4) + (Number(posArr[1]) + 1) - 1; 
-      const currPositionGrid = this.state.positionGrid;
-      currPositionGrid[currPos] = currPositionGrid[currPos] === OFF ? ON : OFF;
-      this.setState({positionGrid: currPositionGrid});
+      newGrid[currPos] = ON;
+      this.setState({positionGrid: newGrid});
       // this._handleTick();
       // console.log(Tone.Transport.state);
       // console.log(Tone.Transport.ticks);
