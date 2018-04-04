@@ -28,9 +28,15 @@
   line-height: 30px;
 }
 
+.flex-item:before {
+  content: '';
+  float: left;
+  padding-top: 100%;
+}
+
 .flex-item {
   background: rgb(207, 207, 207);
-  margin: 5px;
+  margin: 2px;
   color: white;
   font-weight: bold;
   font-size: 1.5em;
@@ -49,12 +55,6 @@
 
 .grid-on:hover {
   background: rgb(245, 118, 118);
-}
-
-.flex-item:before {
-  content: '';
-  float: left;
-  padding-top: 100%;
 }
 
 .instrument-name {

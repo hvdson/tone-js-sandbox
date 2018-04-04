@@ -21,6 +21,7 @@ export default class Grid extends Component {
       playing: false,
       currentStep: -1,
       totalSteps: 16,
+      gridPosition: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       transportGrid: {
         kick: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         snare : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -28,6 +29,10 @@ export default class Grid extends Component {
         tom : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       }
     };
+
+    // loop 4 bars
+    Tone.Transport.setLoopPoints(0, "4m");
+    Tone.Transport.loop = true;
 
     this._runScheduler = this._runScheduler.bind(this);
     this._stopScheduler = this._stopScheduler.bind(this);
@@ -97,7 +102,7 @@ export default class Grid extends Component {
  * @param  {object} event data being received from the service worker
  */
   _handleStep = (event) => {
-    if (event.data === 'step') {
+    if (event.state === 'step') {
       if (this.state.currentStep < this.state.totalSteps - 1) {
         this.setState({ currentStep: this.state.currentStep + 1 })
       } else {
@@ -110,10 +115,12 @@ export default class Grid extends Component {
     e.preventDefault();
     console.log('PLAYING');
     //repeated event every 8th note
-    Tone.Transport.start().scheduleRepeat(function(time) {
+    Tone.Transport.start().scheduleRepeat( (time) => {
       //do something with the time
-      console.log(Tone.Transport.state);
-      console.log(Tone.Transport.ticks);
+      console.log(this.state.gridPosition);
+      // console.log(Tone.Transport.state);
+      // console.log(Tone.Transport.ticks);
+      // console.log(Tone.Transport.position);
     }, '4n');
   }
 
@@ -124,13 +131,14 @@ export default class Grid extends Component {
     Tone.Transport.stop()
     console.log(Tone.Transport.state);
     console.log(Tone.Transport.ticks);
+    console.log(Tone.Transport.position);
   }
 
   // TODO: dry up by calling a seperate component for each semantic tag
   render() {
     return (
       <div className="container">
-        <div className="dimmed">STUFF</div> 
+        <div className="dimmed">YO iT's LIt</div> 
 
         <div id="transport-grid" className="transport">
           {this._renderFlexItem('kick')}
