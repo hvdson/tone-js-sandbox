@@ -120,7 +120,7 @@ class GridItem extends Component {
 
   render() {
     return (
-      <div id={`${this.props.instr}-${this.props.idx}`} className={this._handleToggle()} onClick={this.props._handleClick} ></div>
+      <div id={`${this.props.instr}-${this.props.idx}`} className={this._handleToggle()} onClick={this.props._handleClick}></div>
     )
   }
 }
