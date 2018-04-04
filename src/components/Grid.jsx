@@ -21,7 +21,7 @@ export default class Grid extends Component {
       playing: false,
       currentStep: -1,
       totalSteps: 16,
-      gridPosition: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      positionGrid: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       transportGrid: {
         kick: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         snare : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -94,6 +94,16 @@ export default class Grid extends Component {
     )
   }
 
+  _renderPositionGrid = () => {
+    return (
+      <div className="flex-container">
+        {Array.apply(null, this.state.positionGrid).map((i, idx) => {
+          return <PositionGridItem idx={idx} toggle={this.state.positionGrid[idx]} />
+        })}
+      </div>
+    )
+  }
+
   /**
  * Copied from @florida
  * Receives messages from the timer in the service worker
@@ -117,7 +127,7 @@ export default class Grid extends Component {
     //repeated event every 8th note
     Tone.Transport.start().scheduleRepeat( (time) => {
       //do something with the time
-      console.log(this.state.gridPosition);
+      console.log(this.state.positionGrid);
       // console.log(Tone.Transport.state);
       // console.log(Tone.Transport.ticks);
       // console.log(Tone.Transport.position);
@@ -138,7 +148,9 @@ export default class Grid extends Component {
   render() {
     return (
       <div className="container">
-        <div className="dimmed">YO iT's LIt</div> 
+        <div>
+          {this._renderPositionGrid()}
+        </div> 
 
         <div id="transport-grid" className="transport">
           {this._renderFlexItem('kick')}
@@ -173,6 +185,22 @@ class GridItem extends Component {
   render() {
     return (
       <div id={`${this.props.instr}-${this.props.idx}`} className={this._handleToggle()} onClick={this.props._handleClick}></div>
+    )
+  }
+}
+
+class PositionGridItem extends Component {
+  _handleToggle = () => {
+    if (this.props.toggle === ON) {
+      return 'position-item grid-on';
+    } else {
+      return 'position-item';
+    }
+  }
+
+  render() {
+    return (
+      <div id={`positionGrid-${this.props.idx}`} className={this._handleToggle()}></div>
     )
   }
 }
