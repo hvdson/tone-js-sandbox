@@ -64,6 +64,22 @@ export default class Grid extends Component {
     }
   }
 
+  _handleTick = (idx) => {
+    console.log(idx);
+    console.log(Tone.Transport.position);
+
+
+    // if (this.state.transportGrid[instr][pos] === OFF) {
+    //   currGrid[instr][pos] = 1;
+    //   this.setState({ transportGrid: currGrid });
+    //   console.log(this.state);
+    // } else {
+    //   currGrid[instr][pos] = 0;
+    //   this.setState({ transportGrid: currGrid });
+    //   console.log(this.state);
+    // }
+  }
+
   _handleStopPlay = (e) => {
     e.preventDefault();
     console.log(e.target.id);
@@ -127,10 +143,16 @@ export default class Grid extends Component {
     //repeated event every 8th note
     Tone.Transport.start().scheduleRepeat( (time) => {
       //do something with the time
-      console.log(this.state.positionGrid);
+      let posArr = Tone.Transport.position.split(':'); 
+      // converts the transport position to 1d array for indexing
+      let currPos = (Number(posArr[0]) * 4) + (Number(posArr[1]) + 1) - 1; 
+      const currPositionGrid = this.state.positionGrid;
+      currPositionGrid[currPos] = currPositionGrid[currPos] === OFF ? ON : OFF;
+      this.setState({positionGrid: currPositionGrid});
+      // this._handleTick();
       // console.log(Tone.Transport.state);
       // console.log(Tone.Transport.ticks);
-      // console.log(Tone.Transport.position);
+      
     }, '4n');
   }
 
