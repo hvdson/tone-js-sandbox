@@ -19,6 +19,8 @@ export default class Grid extends Component {
       bpm: 120,
       oscillatorOn: false,
       playing: false,
+      currentStep: -1,
+      totalSteps: 16,
       transportGrid: {
         kick: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         snare : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -26,6 +28,10 @@ export default class Grid extends Component {
         tom : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       }
     };
+
+    this._runScheduler = this._runScheduler.bind(this);
+    this._stopScheduler = this._stopScheduler.bind(this);
+    this._handleClick = this._handleClick.bind(this)
   }
   
   _handleClick = (e) => {
@@ -58,11 +64,11 @@ export default class Grid extends Component {
     console.log(e.target.id);
   }
 
-  // TODO: keep track of state when mouseclick event is fired (change class -> color of button to persist)
+  // keep track of state when mouseclick event is fired (change class -> color of button to persist)
   _renderStopPlay = (id, className, src) => {
     return (
-      <div id={id} className={className}>
-        <img src={src} width="20" alt="play" />
+      <div id={id} className={className} onClick={id === 'play' ? this._runScheduler : this._stopScheduler}>
+        <img src={src} width="20" alt={id} />
       </div>
     )
   }
@@ -83,10 +89,48 @@ export default class Grid extends Component {
     )
   }
 
+  /**
+ * Copied from @florida
+ * Receives messages from the timer in the service worker
+ * Handles advancing steps in the sequencer
+ * Updates the component currentStep state and reverts back to the beginning of the sequence
+ * @param  {object} event data being received from the service worker
+ */
+  _handleStep = (event) => {
+    if (event.data === 'step') {
+      if (this.state.currentStep < this.state.totalSteps - 1) {
+        this.setState({ currentStep: this.state.currentStep + 1 })
+      } else {
+        this.setState({ currentStep: 0 })
+      }
+    }
+  }
+
+  _runScheduler = (e) => {
+    e.preventDefault();
+    console.log('PLAYING');
+    //repeated event every 8th note
+    Tone.Transport.start().scheduleRepeat(function(time) {
+      //do something with the time
+      console.log(Tone.Transport.state);
+      console.log(Tone.Transport.ticks);
+    }, '4n');
+  }
+
+  _stopScheduler = (e) => {
+    e.preventDefault();
+    console.log('STOPPING');
+    //repeated event every 8th note
+    Tone.Transport.stop()
+    console.log(Tone.Transport.state);
+    console.log(Tone.Transport.ticks);
+  }
+
   // TODO: dry up by calling a seperate component for each semantic tag
   render() {
     return (
       <div className="container">
+        <div className="dimmed">STUFF</div> 
 
         <div id="transport-grid" className="transport">
           {this._renderFlexItem('kick')}
