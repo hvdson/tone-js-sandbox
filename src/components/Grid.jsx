@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import Tone, {Player, Players} from 'tone'
 import Play from '../assets/play.svg'
 import Stop from '../assets/stop.svg'
+import Kick from '../assets/samples/Kick.wav'
 
+const player = new Tone.Player(Kick).toMaster();
 
 const ON = 1;
 const OFF = 0;
@@ -35,10 +37,6 @@ export default class Grid extends Component {
     Tone.Transport.setLoopPoints(0, "4m");
     Tone.Transport.loop = true;
     Tone.Transport.bpm.value =  120 * 4
-
-    this.player = new Tone.Player({
-      uri: "src/assets/samples/Kick.wav",
-    }).toMaster();
 
     this._runScheduler = this._runScheduler.bind(this);
     this._stopScheduler = this._stopScheduler.bind(this);
@@ -159,13 +157,14 @@ export default class Grid extends Component {
       this.setState({positionGrid: newGrid});
 
       if (this.state.transportGrid.kick[currPos] === ON) {
-        console.log("Why printtwice");
+        player.start();
+        
       }
       // this._handleTick();
       // console.log(Tone.Transport.state);
       // console.log(Tone.Transport.ticks);
       
-    }, '8n');
+    }, '4n');
   }
 
   _stopScheduler = (e) => {
