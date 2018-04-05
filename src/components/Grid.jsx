@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import Tone from 'tone'
+import Tone, {Player, Players} from 'tone'
 import Play from '../assets/play.svg'
 import Stop from '../assets/stop.svg'
+
 
 const ON = 1;
 const OFF = 0;
 
 const calculateInterval = (bpm) => ((60000 / bpm) * 4) / 8;
 
-// TODO: Add transport method from tone.js to read transportGrid State
-// TODO: Have transparent overlay to indicate what beat is being played
+
+// TODO: add clear all button to reset transportGrid to 0;
 
 export default class Grid extends Component {
   constructor(props) {
@@ -33,6 +34,11 @@ export default class Grid extends Component {
     // loop 4 bars
     Tone.Transport.setLoopPoints(0, "4m");
     Tone.Transport.loop = true;
+    Tone.Transport.bpm.value =  120 * 4
+
+    this.player = new Tone.Player({
+      uri: "src/assets/samples/Kick.wav",
+    }).toMaster();
 
     this._runScheduler = this._runScheduler.bind(this);
     this._stopScheduler = this._stopScheduler.bind(this);
@@ -151,11 +157,15 @@ export default class Grid extends Component {
       let currPos = (Number(posArr[0]) * 4) + (Number(posArr[1]) + 1) - 1; 
       newGrid[currPos] = ON;
       this.setState({positionGrid: newGrid});
+
+      if (this.state.transportGrid.kick[currPos] === ON) {
+        console.log("Why printtwice");
+      }
       // this._handleTick();
       // console.log(Tone.Transport.state);
       // console.log(Tone.Transport.ticks);
       
-    }, '4n');
+    }, '8n');
   }
 
   _stopScheduler = (e) => {
