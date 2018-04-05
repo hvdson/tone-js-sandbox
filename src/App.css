@@ -6,7 +6,6 @@
 .container {
   flex-direction: row;
   -webkit-flex-flow: row;
-  border: 1px solid rgb(228, 223, 223);
   margin: 10rem;
 }
 
@@ -89,7 +88,8 @@
 .play-button {
   flex: 1;
   margin: 0.5rem;
-  background-color: rgb(207, 207, 207);  
+  background-color: rgb(207, 207, 207);
+  border-radius: 4px;
 }
 
 .play-button:hover {
@@ -100,6 +100,7 @@
   flex: 1;
   margin: 0.5rem;
   background-color: rgb(207, 207, 207);
+  border-radius: 4px;
 }
 
 .stop-button:hover {
