@@ -6,13 +6,16 @@ import Stop from '../assets/stop.svg'
 import Kick from '../assets/samples/Kick.wav'
 import Snare from '../assets/samples/Snare.wav'
 import Hat from '../assets/samples/Hat.wav'
-import Clap from '../assets/samples/Hat.wav'
+import Clap from '../assets/samples/Clap.wav'
+import Tom from '../assets/samples/Clap.wav'
 
+import FlavorTown from '../assets/flavortown.jpeg'
 
 const kickPlayer = new Tone.Player(Kick).toMaster();
 const snarePlayer = new Tone.Player(Snare).toMaster();
 const hatPlayer = new Tone.Player(Hat).toMaster();
 const clapPlayer = new Tone.Player(Clap).toMaster();
+const tomPlayer = new Tone.Player(Tom).toMaster();
 
 
 const ON = 1;
@@ -36,9 +39,10 @@ export default class Grid extends Component {
       positionGrid: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       transportGrid: {
         kick: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        snare : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        hat : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        clap : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        snare: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        hat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        clap: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        tom: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       }
     };
 
@@ -133,23 +137,6 @@ export default class Grid extends Component {
     )
   }
 
-  /**
- * Copied from @florida
- * Receives messages from the timer in the service worker
- * Handles advancing steps in the sequencer
- * Updates the component currentStep state and reverts back to the beginning of the sequence
- * @param  {object} event data being received from the service worker
- */
-  _handleStep = (event) => {
-    if (event.state === 'step') {
-      if (this.state.currentStep < this.state.totalSteps - 1) {
-        this.setState({ currentStep: this.state.currentStep + 1 })
-      } else {
-        this.setState({ currentStep: 0 })
-      }
-    }
-  }
-
   _runScheduler = (e) => {
     e.preventDefault();
     console.log('PLAYING');
@@ -181,11 +168,9 @@ export default class Grid extends Component {
         clapPlayer.start();
       }
 
-
-      // this._handleTick();
-      // console.log(Tone.Transport.state);
-      // console.log(Tone.Transport.ticks);
-      
+      if (this.state.transportGrid.tom[currPos] === ON) {
+        tomPlayer.start();
+      }
     }, '4n');
   }
 
@@ -203,6 +188,7 @@ export default class Grid extends Component {
   render() {
     return (
       <div className="container">
+        <img src={FlavorTown} />
         <div>
           {this._renderPositionGrid()}
         </div> 
@@ -212,6 +198,7 @@ export default class Grid extends Component {
           {this._renderFlexItem('snare')}
           {this._renderFlexItem('hat')}
           {this._renderFlexItem('clap')}
+          {this._renderFlexItem('tom')}
         </div>
 
         <div className="track-controls">
@@ -224,7 +211,7 @@ export default class Grid extends Component {
         </div>
 
         <div>
-          MAKE DANK BEATS MY GUY
+          <h1>🔥 MAKE DANK BEATS MY GUY 🔥</h1>
         </div>
       
       </div>
