@@ -2,9 +2,18 @@ import React, { Component } from 'react';
 import Tone, {Player, Players} from 'tone'
 import Play from '../assets/play.svg'
 import Stop from '../assets/stop.svg'
-import Kick from '../assets/samples/Kick.wav'
 
-const player = new Tone.Player(Kick).toMaster();
+import Kick from '../assets/samples/Kick.wav'
+import Snare from '../assets/samples/Snare.wav'
+import Hat from '../assets/samples/Hat.wav'
+import Clap from '../assets/samples/Hat.wav'
+
+
+const kickPlayer = new Tone.Player(Kick).toMaster();
+const snarePlayer = new Tone.Player(Snare).toMaster();
+const hatPlayer = new Tone.Player(Hat).toMaster();
+const clapPlayer = new Tone.Player(Clap).toMaster();
+
 
 const ON = 1;
 const OFF = 0;
@@ -29,7 +38,7 @@ export default class Grid extends Component {
         kick: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         snare : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         hat : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        tom : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        clap : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       }
     };
 
@@ -157,9 +166,22 @@ export default class Grid extends Component {
       this.setState({positionGrid: newGrid});
 
       if (this.state.transportGrid.kick[currPos] === ON) {
-        player.start();
-        
+        kickPlayer.start();
       }
+
+      if (this.state.transportGrid.snare[currPos] === ON) {
+        snarePlayer.start();
+      }
+      
+      if (this.state.transportGrid.hat[currPos] === ON) {
+        hatPlayer.start();
+      }
+      
+      if (this.state.transportGrid.clap[currPos] === ON) {
+        clapPlayer.start();
+      }
+
+
       // this._handleTick();
       // console.log(Tone.Transport.state);
       // console.log(Tone.Transport.ticks);
@@ -189,7 +211,7 @@ export default class Grid extends Component {
           {this._renderFlexItem('kick')}
           {this._renderFlexItem('snare')}
           {this._renderFlexItem('hat')}
-          {this._renderFlexItem('tom')}
+          {this._renderFlexItem('clap')}
         </div>
 
         <div className="track-controls">
