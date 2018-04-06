@@ -49,12 +49,13 @@ export default class Grid extends Component {
     // loop 4 bars
     Tone.Transport.setLoopPoints(0, "4m");
     Tone.Transport.loop = true;
-    Tone.Transport.bpm.value =  120 * 4
+    Tone.Transport.bpm.value =  this.state.bpm * 4;
 
     this._runScheduler = this._runScheduler.bind(this);
     this._stopScheduler = this._stopScheduler.bind(this);
-    this._handleClick = this._handleClick.bind(this)
-    this._clearGrid = this._clearGrid.bind(this)
+    this._handleClick = this._handleClick.bind(this);
+    this._clearGrid = this._clearGrid.bind(this);
+    this._handleBpmSlider = this._handleBpmSlider.bind(this);
   }
   
   _handleClick = (e) => {
@@ -75,22 +76,6 @@ export default class Grid extends Component {
       this.setState({ transportGrid: currGrid });
       console.log(this.state);
     }
-  }
-
-  _handleTick = (idx) => {
-    console.log(idx);
-    console.log(Tone.Transport.position);
-
-
-    // if (this.state.transportGrid[instr][pos] === OFF) {
-    //   currGrid[instr][pos] = 1;
-    //   this.setState({ transportGrid: currGrid });
-    //   console.log(this.state);
-    // } else {
-    //   currGrid[instr][pos] = 0;
-    //   this.setState({ transportGrid: currGrid });
-    //   console.log(this.state);
-    // }
   }
 
   _handleStopPlay = (e) => {
@@ -147,23 +132,18 @@ export default class Grid extends Component {
       let currPos = (Number(posArr[0]) * 4) + (Number(posArr[1]) + 1) - 1; 
       newGrid[currPos] = ON;
       this.setState({positionGrid: newGrid});
-
       if (this.state.transportGrid.kick[currPos] === ON) {
         kickPlayer.start();
       }
-
       if (this.state.transportGrid.snare[currPos] === ON) {
         snarePlayer.start();
       }
-      
       if (this.state.transportGrid.hat[currPos] === ON) {
         hatPlayer.start();
       }
-      
       if (this.state.transportGrid.clap[currPos] === ON) {
         clapPlayer.start();
       }
-
       if (this.state.transportGrid.tom[currPos] === ON) {
         tomPlayer.start();
       }
@@ -194,6 +174,13 @@ export default class Grid extends Component {
     })
   }
 
+  _handleBpmSlider = (e) => {
+    console.log(e.target.value);
+    console.log('o fuk it work');
+    this.setState({bpm: e.target.value});
+    Tone.Transport.bpm.value = this.state.bpm * 4;
+  }
+
   // TODO: dry up by calling a seperate component for each semantic tag
   render() {
     return (
@@ -220,6 +207,7 @@ export default class Grid extends Component {
           <div className="misc-options">
             <div className="set-bpm">
               <h3>BPM:{this.state.bpm}</h3>
+              <input type="range" min="40" max="250" value={this.state.bpm} id="myRange" onInput={this._handleBpmSlider}/>
             </div>
 
             <div className="clear-grid" onClick={this._clearGrid}>
@@ -235,6 +223,7 @@ export default class Grid extends Component {
     )
   }
 }
+
 
 class GridItem extends Component {
   _handleToggle = () => {
