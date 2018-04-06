@@ -39,7 +39,7 @@ html {
 }
 
 .flex-item {
-  background: rgb(207, 207, 207);
+  background: rgb(180, 180, 180);
   margin: 2px;
   color: white;
   font-weight: bold;
@@ -136,4 +136,10 @@ html {
 .flavor-town {
   position: absolute;
   z-index: -9999;
+}
+
+.options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }

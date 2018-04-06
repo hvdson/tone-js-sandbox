@@ -205,12 +205,9 @@ export default class Grid extends Component {
           {this._renderStopPlay('play', 'play-button', Play)}
         </div>
 
-        <div>
-          <h3>BPM:{this.state.bpm}</h3>
-        </div>
-
-        <div>
-          <h1>🔥 MAKE DANK BEATS MY GUY 🔥</h1>
+        <div className="options">
+          <span>BPM:{this.state.bpm}</span>
+          <span>CLEAR GRID</span>
         </div>
 
         {/* <img className="flavor-town" src={FlavorTown} /> */}
