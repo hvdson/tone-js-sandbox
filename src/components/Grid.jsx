@@ -7,7 +7,7 @@ import Kick from '../assets/samples/Kick.wav'
 import Snare from '../assets/samples/Snare.wav'
 import Hat from '../assets/samples/Hat.wav'
 import Clap from '../assets/samples/Clap.wav'
-import Tom from '../assets/samples/Clap.wav'
+import Tom from '../assets/samples/Tom.wav'
 
 import FlavorTown from '../assets/flavortown.jpeg'
 
@@ -188,10 +188,9 @@ export default class Grid extends Component {
   render() {
     return (
       <div className="container">
-        <img src={FlavorTown} />
         <div>
           {this._renderPositionGrid()}
-        </div> 
+        </div>
 
         <div id="transport-grid" className="transport">
           {this._renderFlexItem('kick')}
@@ -213,6 +212,8 @@ export default class Grid extends Component {
         <div>
           <h1>🔥 MAKE DANK BEATS MY GUY 🔥</h1>
         </div>
+
+        {/* <img className="flavor-town" src={FlavorTown} /> */}
       
       </div>
     )
@@ -238,7 +239,7 @@ class GridItem extends Component {
 class PositionGridItem extends Component {
   _handleToggle = () => {
     if (this.props.toggle === ON) {
-      return 'position-item grid-on';
+      return 'position-item position-item-on';
     } else {
       return 'position-item';
     }
