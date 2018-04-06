@@ -60,12 +60,7 @@ export default class Grid extends Component {
   _handleClick = (e) => {
     e.preventDefault();
     console.log(e.target);
-    // if (this.state.oscillatorOn) {
-    //   this.omniOsc.stop();
-    //   this.setState({ oscillatorOn: false });
-    // } else {
-    //   this._newSynth();
-    // }
+
     const gridLocation = e.target.id.split('-');
     const instr = gridLocation[0];
     const pos = Number(gridLocation[1]);
@@ -188,15 +183,15 @@ export default class Grid extends Component {
   _clearGrid = (e) => {
     e.preventDefault();
     console.log('INSIDE');
-    // this.setState({
-    //   transportGrid: {
-    //     kick: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //     snare: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //     hat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //     clap: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //     tom: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   }
-    // })
+    this.setState({
+      transportGrid: {
+        kick: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        snare: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        hat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        clap: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        tom: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      }
+    })
   }
 
   // TODO: dry up by calling a seperate component for each semantic tag
@@ -223,11 +218,11 @@ export default class Grid extends Component {
           </div>
 
           <div className="misc-options">
-            <div className="misc-item" onClick={this._clearGrid}>
+            <div className="misc-item">
               <h3>BPM:{this.state.bpm}</h3>
             </div>
 
-            <div className="misc-item">
+            <div className="misc-item" onClick={this._clearGrid}>
               <h3>CLEAR GRID</h3>
             </div>
 
