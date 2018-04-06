@@ -51,7 +51,7 @@ html {
 }
 
 .flex-item:hover {
-  background-color: rgba(240, 53, 53, 0.493);
+  background-color: rgba(248, 236, 72, 0.582);
 }
 
 .position-item:before {
@@ -81,7 +81,7 @@ html {
 }
 
 .grid-on:hover {
-  background-color: rgba(248, 236, 72, 0.582);
+  background-color: rgba(248, 109, 109, 0.582);
 }
 
 .instrument-name {
