@@ -54,6 +54,7 @@ export default class Grid extends Component {
     this._runScheduler = this._runScheduler.bind(this);
     this._stopScheduler = this._stopScheduler.bind(this);
     this._handleClick = this._handleClick.bind(this)
+    this._clearGrid = this._clearGrid.bind(this)
   }
   
   _handleClick = (e) => {
@@ -106,7 +107,7 @@ export default class Grid extends Component {
   _renderStopPlay = (id, className, src) => {
     return (
       <div id={id} className={className} onClick={id === 'play' ? this._runScheduler : this._stopScheduler}>
-        <img src={src} width="20" alt={id} />
+        <h3><img src={src} width="20" alt={id} /></h3>
       </div>
     )
   }
@@ -184,6 +185,20 @@ export default class Grid extends Component {
     console.log(Tone.Transport.position);
   }
 
+  _clearGrid = (e) => {
+    e.preventDefault();
+    console.log('INSIDE');
+    // this.setState({
+    //   transportGrid: {
+    //     kick: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //     snare: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //     hat: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //     clap: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //     tom: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   }
+    // })
+  }
+
   // TODO: dry up by calling a seperate component for each semantic tag
   render() {
     return (
@@ -200,14 +215,23 @@ export default class Grid extends Component {
           {this._renderFlexItem('tom')}
         </div>
 
-        <div className="track-controls">
-          {this._renderStopPlay('stop', 'stop-button', Stop)}
-          {this._renderStopPlay('play', 'play-button', Play)}
-        </div>
 
-        <div className="options">
-          <span>BPM:{this.state.bpm}</span>
-          <span>CLEAR GRID</span>
+        <div className="transport-options"> 
+          <div className="track-controls">
+            {this._renderStopPlay('stop', 'stop-button', Stop)}
+            {this._renderStopPlay('play', 'play-button', Play)}
+          </div>
+
+          <div className="misc-options">
+            <div className="misc-item" onClick={this._clearGrid}>
+              <h3>BPM:{this.state.bpm}</h3>
+            </div>
+
+            <div className="misc-item">
+              <h3>CLEAR GRID</h3>
+            </div>
+
+          </div>
         </div>
 
         {/* <img className="flavor-town" src={FlavorTown} /> */}

@@ -88,6 +88,11 @@ html {
   margin-top: 20px;
 }
 
+.transport-options {
+  display: flex;
+  flex-direction: column;
+}
+
 .track-controls {
   flex: 1;
   display: flex;
@@ -116,6 +121,19 @@ html {
   background-color: rgb(235, 86, 86);
 }
 
+.misc-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.misc-item {
+  flex: 1;
+  margin: 0.5rem;
+  background-color: rgb(207, 207, 207);
+  border-radius: 4px;
+}
+
 .dimmed {
   position: relative;
 }
@@ -136,10 +154,4 @@ html {
 .flavor-town {
   position: absolute;
   z-index: -9999;
-}
-
-.options {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
 }
