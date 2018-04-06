@@ -218,11 +218,11 @@ export default class Grid extends Component {
           </div>
 
           <div className="misc-options">
-            <div className="misc-item">
+            <div className="set-bpm">
               <h3>BPM:{this.state.bpm}</h3>
             </div>
 
-            <div className="misc-item" onClick={this._clearGrid}>
+            <div className="clear-grid" onClick={this._clearGrid}>
               <h3>CLEAR GRID</h3>
             </div>
 
