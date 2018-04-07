@@ -29,7 +29,6 @@ const calculateInterval = (bpm) => ((60000 / bpm) * 4) / 8;
 export default class Grid extends Component {
   constructor(props) {
     super(props);
-    this.omniOsc = new Tone.OmniOscillator("C#4", "pwm").toMaster();
     this.state = {
       bpm: 120,
       oscillatorOn: false,
@@ -124,7 +123,6 @@ export default class Grid extends Component {
     //repeated event every 8th note
     Tone.Transport.start().scheduleRepeat( (time) => {
       //do something with the time
-
       let newGrid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
       let posArr = Tone.Transport.position.split(':'); 
@@ -153,11 +151,8 @@ export default class Grid extends Component {
   _stopScheduler = (e) => {
     e.preventDefault();
     console.log('STOPPING');
-    //repeated event every 8th note
-    Tone.Transport.stop()
-    console.log(Tone.Transport.state);
-    console.log(Tone.Transport.ticks);
-    console.log(Tone.Transport.position);
+    Tone.Transport.stop();
+    console.log(Tone.Transport);
   }
 
   _clearGrid = (e) => {
@@ -175,8 +170,6 @@ export default class Grid extends Component {
   }
 
   _handleBpmSlider = (e) => {
-    console.log(e.target.value);
-    console.log('o fuk it work');
     this.setState({bpm: e.target.value});
     Tone.Transport.bpm.value = this.state.bpm * 4;
   }
@@ -196,7 +189,6 @@ export default class Grid extends Component {
           {this._renderFlexItem('clap')}
           {this._renderFlexItem('tom')}
         </div>
-
 
         <div className="transport-options"> 
           <div className="track-controls">
