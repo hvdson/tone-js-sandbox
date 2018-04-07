@@ -28,8 +28,6 @@ const OFF = 0;
 // loop 4 bars
 Tone.Transport.setLoopPoints(0, "4m");
 Tone.Transport.loop = true;
-// for 16th notes on the grid
-Tone.Transport.bpm.value = this.state.bpm * 4;
 
 // ------------------------------------------------------------------------
 // MAIN GRID COMPONENT
@@ -49,6 +47,9 @@ export default class Grid extends Component {
         tom: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       }
     };
+
+    // for 16th notes on the grid
+    Tone.Transport.bpm.value = this.state.bpm * 4;
 
     this._runScheduler = this._runScheduler.bind(this);
     this._stopScheduler = this._stopScheduler.bind(this);
