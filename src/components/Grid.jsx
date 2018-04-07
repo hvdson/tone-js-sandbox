@@ -17,7 +17,6 @@ const hatPlayer = new Tone.Player(Hat).toMaster();
 const clapPlayer = new Tone.Player(Clap).toMaster();
 const tomPlayer = new Tone.Player(Tom).toMaster();
 
-
 const ON = 1;
 const OFF = 0;
 
@@ -35,6 +34,7 @@ export default class Grid extends Component {
       playing: false,
       currentStep: -1,
       totalSteps: 16,
+      currScheduleID: null,
       positionGrid: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       transportGrid: {
         kick: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -121,8 +121,11 @@ export default class Grid extends Component {
     e.preventDefault();
     console.log('PLAYING');
     //repeated event every 8th note
-    Tone.Transport.start().scheduleRepeat( (time) => {
+
+    var currScheduleID = Tone.Transport.start().scheduleRepeat( (time) => {
       //do something with the time
+
+
       let newGrid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
       let posArr = Tone.Transport.position.split(':'); 
@@ -130,6 +133,7 @@ export default class Grid extends Component {
       let currPos = (Number(posArr[0]) * 4) + (Number(posArr[1]) + 1) - 1; 
       newGrid[currPos] = ON;
       this.setState({positionGrid: newGrid});
+
       if (this.state.transportGrid.kick[currPos] === ON) {
         kickPlayer.start();
       }
@@ -146,13 +150,16 @@ export default class Grid extends Component {
         tomPlayer.start();
       }
     }, '4n');
+    
+    this.setState({ currScheduleID });
   }
 
   _stopScheduler = (e) => {
     e.preventDefault();
     console.log('STOPPING');
     Tone.Transport.stop();
-    console.log(Tone.Transport);
+    Tone.Transport.clear(this.state.currScheduleID);
+    // for all properties
   }
 
   _clearGrid = (e) => {
@@ -208,9 +215,7 @@ export default class Grid extends Component {
 
           </div>
         </div>
-
         {/* <img className="flavor-town" src={FlavorTown} /> */}
-      
       </div>
     )
   }
