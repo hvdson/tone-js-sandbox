@@ -110,32 +110,34 @@ export default class Grid extends Component {
     e.preventDefault();
     console.log('PLAYING');
 
-    const currScheduleID = Tone.Transport.start().scheduleRepeat( (time) => {
-      let newGrid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-      let posArr = Tone.Transport.position.split(':'); 
-      // converts the transport position to 1d array for indexing
-      let currPos = (Number(posArr[0]) * 4) + (Number(posArr[1]) + 1) - 1; 
-      newGrid[currPos] = ON;
-      this.setState({positionGrid: newGrid});
+    // make sure nothing is scheduled already
+    if (!this.state.currScheduleID) {
+      const currScheduleID = Tone.Transport.start().scheduleRepeat( (time) => {
+        let newGrid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let posArr = Tone.Transport.position.split(':'); 
+        // converts the transport position to 1d array for indexing
+        let currPos = (Number(posArr[0]) * 4) + (Number(posArr[1]) + 1) - 1; 
+        newGrid[currPos] = ON;
+        this.setState({positionGrid: newGrid});
 
-      if (this.state.transportGrid.kick[currPos] === ON) {
-        kickPlayer.start();
-      }
-      if (this.state.transportGrid.snare[currPos] === ON) {
-        snarePlayer.start();
-      }
-      if (this.state.transportGrid.hat[currPos] === ON) {
-        hatPlayer.start();
-      }
-      if (this.state.transportGrid.clap[currPos] === ON) {
-        clapPlayer.start();
-      }
-      if (this.state.transportGrid.tom[currPos] === ON) {
-        tomPlayer.start();
-      }
-    }, '4n');
-    
-    this.setState({ currScheduleID });
+        if (this.state.transportGrid.kick[currPos] === ON) {
+          kickPlayer.start();
+        }
+        if (this.state.transportGrid.snare[currPos] === ON) {
+          snarePlayer.start();
+        }
+        if (this.state.transportGrid.hat[currPos] === ON) {
+          hatPlayer.start();
+        }
+        if (this.state.transportGrid.clap[currPos] === ON) {
+          clapPlayer.start();
+        }
+        if (this.state.transportGrid.tom[currPos] === ON) {
+          tomPlayer.start();
+        }
+      }, '4n'); 
+      this.setState({ currScheduleID });
+    }
   }
 
   _stopScheduler = (e) => {
@@ -143,6 +145,7 @@ export default class Grid extends Component {
     console.log('STOPPING');
     Tone.Transport.stop();
     Tone.Transport.clear(this.state.currScheduleID);
+    this.setState({ currScheduleID: null });
   }
 
   // transport options
