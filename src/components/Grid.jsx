@@ -17,23 +17,28 @@ const hatPlayer = new Tone.Player(Hat).toMaster();
 const clapPlayer = new Tone.Player(Clap).toMaster();
 const tomPlayer = new Tone.Player(Tom).toMaster();
 
+
+// constants for grid on and off
+// ------------------------------------------------------------------------
 const ON = 1;
 const OFF = 0;
 
-const calculateInterval = (bpm) => ((60000 / bpm) * 4) / 8;
+// Transport settings
+// ------------------------------------------------------------------------
+// loop 4 bars
+Tone.Transport.setLoopPoints(0, "4m");
+Tone.Transport.loop = true;
+// for 16th notes on the grid
+Tone.Transport.bpm.value = this.state.bpm * 4;
 
-
-// TODO: add clear all button to reset transportGrid to 0;
-
+// ------------------------------------------------------------------------
+// MAIN GRID COMPONENT
+// ------------------------------------------------------------------------
 export default class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
       bpm: 120,
-      oscillatorOn: false,
-      playing: false,
-      currentStep: -1,
-      totalSteps: 16,
       currScheduleID: null,
       positionGrid: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       transportGrid: {
@@ -45,41 +50,38 @@ export default class Grid extends Component {
       }
     };
 
-    // loop 4 bars
-    Tone.Transport.setLoopPoints(0, "4m");
-    Tone.Transport.loop = true;
-    Tone.Transport.bpm.value =  this.state.bpm * 4;
-
     this._runScheduler = this._runScheduler.bind(this);
     this._stopScheduler = this._stopScheduler.bind(this);
     this._handleClick = this._handleClick.bind(this);
     this._clearGrid = this._clearGrid.bind(this);
     this._handleBpmSlider = this._handleBpmSlider.bind(this);
   }
+
+  // For enabling grid values on transport
+  // ------------------------------------------------------------------------
+  _renderFlexItem = (instr) => {
+    return (
+      <div className="flex-container">
+        {Array.apply(null, this.state.transportGrid.kick).map((i, idx) => {
+          return <GridItem instr={instr} idx={idx} toggle={this.state.transportGrid[instr][idx]} _handleClick={this._handleClick.bind(this)} />
+        })}
+      </div>
+    )
+  }
   
   _handleClick = (e) => {
     e.preventDefault();
-    console.log(e.target);
-
     const gridLocation = e.target.id.split('-');
     const instr = gridLocation[0];
     const pos = Number(gridLocation[1]);
     let currGrid = this.state.transportGrid;
-
     if (this.state.transportGrid[instr][pos] === OFF) {
       currGrid[instr][pos] = 1;
       this.setState({transportGrid: currGrid});
-      console.log(this.state);
     } else {
       currGrid[instr][pos] = 0;
       this.setState({ transportGrid: currGrid });
-      console.log(this.state);
     }
-  }
-
-  _handleStopPlay = (e) => {
-    e.preventDefault();
-    console.log(e.target.id);
   }
 
   // keep track of state when mouseclick event is fired (change class -> color of button to persist)
@@ -87,22 +89,6 @@ export default class Grid extends Component {
     return (
       <div id={id} className={className} onClick={id === 'play' ? this._runScheduler : this._stopScheduler}>
         <h3><img src={src} width="20" alt={id} /></h3>
-      </div>
-    )
-  }
-
-  _newSynth = () => {
-    //create a synth and connect it to the master output (your speakers)
-    this.omniOsc.start();
-    this.setState({ oscillatorOn: true });
-  }
-
-  _renderFlexItem = (instr) => {
-    return (
-      <div className="flex-container">
-        {Array.apply(null, this.state.transportGrid.kick).map((i, idx) => {
-          return <GridItem instr={instr} idx={idx} toggle={this.state.transportGrid[instr][idx]} _handleClick={this._handleClick.bind(this)} />
-        })}
       </div>
     )
   }
@@ -117,17 +103,14 @@ export default class Grid extends Component {
     )
   }
 
+  // Everything to do with scheduling for timing samples
+  // ------------------------------------------------------------------------
   _runScheduler = (e) => {
     e.preventDefault();
     console.log('PLAYING');
-    //repeated event every 8th note
 
-    var currScheduleID = Tone.Transport.start().scheduleRepeat( (time) => {
-      //do something with the time
-
-
+    const currScheduleID = Tone.Transport.start().scheduleRepeat( (time) => {
       let newGrid = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
       let posArr = Tone.Transport.position.split(':'); 
       // converts the transport position to 1d array for indexing
       let currPos = (Number(posArr[0]) * 4) + (Number(posArr[1]) + 1) - 1; 
@@ -159,9 +142,10 @@ export default class Grid extends Component {
     console.log('STOPPING');
     Tone.Transport.stop();
     Tone.Transport.clear(this.state.currScheduleID);
-    // for all properties
   }
 
+  // transport options
+  // ------------------------------------------------------------------------
   _clearGrid = (e) => {
     e.preventDefault();
     console.log('INSIDE');
@@ -221,7 +205,9 @@ export default class Grid extends Component {
   }
 }
 
-
+// ------------------------------------------------------------------------
+// GridItem COMPONENT
+// ------------------------------------------------------------------------
 class GridItem extends Component {
   _handleToggle = () => {
     if (this.props.toggle === ON) {
@@ -238,6 +224,9 @@ class GridItem extends Component {
   }
 }
 
+// ------------------------------------------------------------------------
+// PositionGridItem COMPONENT
+// ------------------------------------------------------------------------
 class PositionGridItem extends Component {
   _handleToggle = () => {
     if (this.props.toggle === ON) {
