@@ -8,6 +8,7 @@ import Snare from '../assets/samples/Snare.wav'
 import Hat from '../assets/samples/Hat.wav'
 import Clap from '../assets/samples/Clap.wav'
 import Tom from '../assets/samples/Tom.wav'
+import Click from '../assets/samples/Click.wav'
 
 import FlavorTown from '../assets/flavortown.jpeg'
 
@@ -16,6 +17,7 @@ const snarePlayer = new Tone.Player(Snare).toMaster();
 const hatPlayer = new Tone.Player(Hat).toMaster();
 const clapPlayer = new Tone.Player(Clap).toMaster();
 const tomPlayer = new Tone.Player(Tom).toMaster();
+const click = new Tone.Player(Click).toMaster();
 
 
 // constants for grid on and off
@@ -39,6 +41,8 @@ export default class Grid extends Component {
       bpm: 120,
       currScheduleID: null,
       positionGrid: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      clickOn: false,
+      clickGrid: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       transportGrid: {
         kick: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         snare: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -120,6 +124,9 @@ export default class Grid extends Component {
         newGrid[currPos] = ON;
         this.setState({positionGrid: newGrid});
 
+        if (this.state.clickGrid[currPos] === ON) {
+          click.start();
+        }
         if (this.state.transportGrid.kick[currPos] === ON) {
           kickPlayer.start();
         }
@@ -169,6 +176,23 @@ export default class Grid extends Component {
     Tone.Transport.bpm.value = this.state.bpm * 4;
   }
 
+  _handleMetronome = (e) => {
+
+    if (!this.state.clickOn) {
+      this.setState({
+        clickOn: true,
+        clickGrid: [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+      });
+      console.log(e.target.className);
+    } else {
+      this.setState({
+        clickOn: false,
+        clickGrid: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      });
+      console.log(e.target.className);
+    }
+  }
+
   // TODO: dry up by calling a seperate component for each semantic tag
   render() {
     return (
@@ -201,7 +225,7 @@ export default class Grid extends Component {
               <h3>CLEAR GRID</h3>
             </div>
 
-            <div className="metronome">
+            <div className="metronome" onClick={this._handleMetronome}>
               <h3>METRONOME</h3>
             </div>
 
