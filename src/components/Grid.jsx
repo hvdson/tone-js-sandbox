@@ -201,6 +201,10 @@ export default class Grid extends Component {
               <h3>CLEAR GRID</h3>
             </div>
 
+            <div className="metronome">
+              <h3>METRONOME</h3>
+            </div>
+
           </div>
         </div>
         {/* <img className="flavor-town" src={FlavorTown} /> */}
