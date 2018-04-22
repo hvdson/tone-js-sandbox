@@ -245,7 +245,7 @@ export default class Grid extends Component {
         </div>
         {/* <img className="flavor-town" src={FlavorTown} /> */}
       </div>
-    )
+    );
   }
 }
 
@@ -264,7 +264,7 @@ class GridItem extends Component {
   render() {
     return (
       <div id={`${this.props.instr}-${this.props.idx}`} className={this._handleToggle()} onClick={this.props._handleClick}></div>
-    )
+    );
   }
 }
 
@@ -283,6 +283,6 @@ class PositionGridItem extends Component {
   render() {
     return (
       <div id={`positionGrid-${this.props.idx}`} className={this._handleToggle()}></div>
-    )
+    );
   }
 }
