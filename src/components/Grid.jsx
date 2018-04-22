@@ -60,6 +60,7 @@ export default class Grid extends Component {
     this._handleClick = this._handleClick.bind(this);
     this._clearGrid = this._clearGrid.bind(this);
     this._handleBpmSlider = this._handleBpmSlider.bind(this);
+    this._handleToggle = this._handleToggle.bind(this);
   }
 
   // For enabling grid values on transport
@@ -72,6 +73,20 @@ export default class Grid extends Component {
         })}
       </div>
     )
+  }
+
+  /** 
+   @function _handleToggle returns className to use in metronome div to indicate on state
+   @param {off} String className representing the default state of element in context
+   @param {on} String className representing the 'activated' state of element in context
+   */
+  _handleToggle = (off, on) => {
+    if (this.state.clickOn) {
+      console.log(on);
+      return `${off} ${on}`;
+    } 
+    console.log(off);
+    return off;
   }
   
   _handleClick = (e) => {
@@ -177,19 +192,16 @@ export default class Grid extends Component {
   }
 
   _handleMetronome = (e) => {
-
     if (!this.state.clickOn) {
       this.setState({
         clickOn: true,
         clickGrid: [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
       });
-      console.log(e.target.className);
     } else {
       this.setState({
         clickOn: false,
         clickGrid: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       });
-      console.log(e.target.className);
     }
   }
 
@@ -225,7 +237,7 @@ export default class Grid extends Component {
               <h3>CLEAR GRID</h3>
             </div>
 
-            <div className="metronome" onClick={this._handleMetronome}>
+            <div className={this._handleToggle('metronome', 'metronome-on')} onClick={this._handleMetronome}>
               <h3>METRONOME</h3>
             </div>
 
