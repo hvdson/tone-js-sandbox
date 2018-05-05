@@ -21,18 +21,25 @@ export default class WebGLObjects extends Component {
     }
 
     // Set clear color to black, fully opaque
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.clearColor(1.0, 1.0, 1.0, 1.0);
     // Clear the color buffer with specified clear color
     gl.clear(gl.COLOR_BUFFER_BIT);
   }
 
-
   render() {
     return (
-      <canvas id="glCanvas" width="640" height="480"></canvas>
+      // <canvas id="glCanvas"></canvas>
+      <div>
+        {this.main()}
+      </div>
     );
   }
 
+  componentWillReceiveProps() {
+    console.log('it works');
+    console.log(this.props.gridState);
+  }
+  
   componentDidMount() {
     this.main();
   }

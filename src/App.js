@@ -29,8 +29,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+      <WebGLComponent gridState={this.state.grid} returnWebGLState={this.setwebGLState}/>
         <Grid webGLState={this.state.webGL} returnGridState={this.setGridState}/>
-        <WebGLComponent gridState={this.state.grid} returnWebGLState={this.setwebGLState}/>
       </div>
     );
   }

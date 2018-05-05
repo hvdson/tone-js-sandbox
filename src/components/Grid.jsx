@@ -205,6 +205,10 @@ export default class Grid extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.returnGridState(this.state);
+  }
+
   // TODO: dry up by calling a seperate component for each semantic tag
   render() {
     return (
